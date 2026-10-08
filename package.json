@@ -1,0 +1,13 @@
+{
+  "name": "notch-store",
+  "version": "1.0.0",
+  "description": "NOTCH Tech – متجر إلكتروني ولوحة تحكم (بدون مكتبات خارجية)",
+  "type": "module",
+  "private": true,
+  "engines": { "node": ">=22.13" },
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js",
+    "reset": "node server/reset.js"
+  }
+}

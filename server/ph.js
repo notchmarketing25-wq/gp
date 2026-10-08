@@ -1,0 +1,16 @@
+// صور مؤقتة (SVG) للمنتجات التجريبية لحين رفع صور حقيقية
+const SHAPES = {
+  charger: `<rect x="215" y="170" width="170" height="240" rx="28" fill="#fff"/><rect x="255" y="120" width="12" height="55" rx="4" fill="#bbb"/><rect x="333" y="120" width="12" height="55" rx="4" fill="#bbb"/><path d="M310 235l-40 60h36l-14 55 52-72h-38z" fill="ACC"/>`,
+  cable: `<path d="M150 400c0-140 300 0 300-140" fill="none" stroke="#fff" stroke-width="22" stroke-linecap="round"/><rect x="120" y="390" width="60" height="44" rx="10" fill="#ddd"/><rect x="420" y="215" width="60" height="44" rx="10" fill="#ddd"/><rect x="132" y="402" width="36" height="20" rx="4" fill="ACC"/>`,
+  powerbank: `<rect x="200" y="130" width="200" height="340" rx="36" fill="#fff"/><rect x="230" y="170" width="140" height="14" rx="7" fill="ACC"/><rect x="230" y="200" width="100" height="14" rx="7" fill="#ccc"/><circle cx="300" cy="360" r="46" fill="none" stroke="ACC" stroke-width="10"/><path d="M308 335l-22 30h16l-6 26 24-34h-16z" fill="ACC"/>`,
+  earbuds: `<ellipse cx="300" cy="400" rx="150" ry="70" fill="#fff"/><rect x="160" y="270" width="30" height="120" rx="15" fill="#e8e8e8"/><circle cx="175" cy="255" r="42" fill="#fff"/><rect x="410" y="270" width="30" height="120" rx="15" fill="#e8e8e8"/><circle cx="425" cy="255" r="42" fill="#fff"/><circle cx="175" cy="255" r="14" fill="ACC"/><circle cx="425" cy="255" r="14" fill="ACC"/>`,
+  case: `<rect x="195" y="110" width="210" height="380" rx="42" fill="#fff"/><rect x="225" y="140" width="80" height="80" rx="22" fill="#222"/><circle cx="250" cy="165" r="14" fill="#555"/><circle cx="282" cy="190" r="10" fill="#555"/><circle cx="300" cy="400" r="26" fill="ACC"/>`,
+  watch: `<rect x="250" y="80" width="100" height="140" rx="20" fill="#e6e6e6"/><rect x="250" y="380" width="100" height="140" rx="20" fill="#e6e6e6"/><rect x="195" y="190" width="210" height="220" rx="52" fill="#222"/><rect x="210" y="205" width="180" height="190" rx="40" fill="#000"/><circle cx="300" cy="300" r="52" fill="none" stroke="ACC" stroke-width="10"/><path d="M300 270v34l22 14" stroke="#fff" stroke-width="8" fill="none" stroke-linecap="round"/>`,
+  speaker: `<rect x="170" y="200" width="260" height="200" rx="60" fill="#fff"/><circle cx="300" cy="300" r="62" fill="#222"/><circle cx="300" cy="300" r="26" fill="ACC"/><circle cx="215" cy="300" r="6" fill="#bbb"/><circle cx="385" cy="300" r="6" fill="#bbb"/>`,
+  holder: `<rect x="200" y="400" width="200" height="40" rx="16" fill="#fff"/><rect x="280" y="250" width="40" height="160" rx="12" fill="#ddd"/><rect x="190" y="110" width="220" height="160" rx="26" fill="#fff"/><rect x="205" y="125" width="190" height="130" rx="16" fill="#222"/><circle cx="300" cy="190" r="18" fill="ACC"/>`,
+};
+export function placeholderSvg(kind, color = '#ff4d2e') {
+  const c = /^#[0-9a-f]{6}$/i.test(color) ? color : '#ff4d2e';
+  const shape = (SHAPES[kind] || SHAPES.charger).replaceAll('ACC', c);
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2a2a30"/><stop offset="1" stop-color="#0d0d10"/></linearGradient></defs><rect width="600" height="600" fill="url(#g)"/><circle cx="300" cy="300" r="230" fill="${c}" opacity=".10"/>${shape}</svg>`;
+}
