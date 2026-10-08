@@ -2,3 +2,11 @@ node_modules
 data/
 uploads/
 .env
+
+# Hostinger PHP app: secrets & runtime data
+public_html/config/config.php
+public_html/storage/logs/*
+!public_html/storage/logs/.gitkeep
+public_html/uploads/*
+!public_html/uploads/.htaccess
+public_html/updates/
