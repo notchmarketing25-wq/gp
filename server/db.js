@@ -1,6 +1,6 @@
-import { DatabaseSync } from 'node:sqlite';
 import fs from 'node:fs';
 import path from 'node:path';
+import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 
 export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -9,8 +9,20 @@ export const UPLOAD_DIR = process.env.UPLOAD_DIR || path.join(ROOT, 'uploads');
 fs.mkdirSync(DATA_DIR, { recursive: true });
 fs.mkdirSync(UPLOAD_DIR, { recursive: true });
 
-export const db = new DatabaseSync(path.join(DATA_DIR, 'store.db'));
-db.exec('PRAGMA journal_mode=WAL; PRAGMA foreign_keys=ON;');
+// SQLite المدمج في Node (22.13+)، وإلا better-sqlite3 (للاستضافات بإصدار Node أقدم مثل Hostinger)
+async function openDb(file) {
+  try {
+    const { DatabaseSync } = await import('node:sqlite');
+    return new DatabaseSync(file);
+  } catch (e) {
+    try { return new (createRequire(import.meta.url)('better-sqlite3'))(file); } catch {
+      throw new Error(`SQLite غير متاح (Node ${process.version}). استخدم Node 22.13+ أو شغّل npm install لتثبيت better-sqlite3.\n${e.message}`);
+    }
+  }
+}
+export const db = await openDb(path.join(DATA_DIR, 'store.db'));
+try { db.exec('PRAGMA journal_mode=WAL'); } catch { /* بعض أنظمة الملفات المشتركة لا تدعم WAL */ }
+db.exec('PRAGMA foreign_keys=ON;');
 
 db.exec(`
 CREATE TABLE IF NOT EXISTS users(

@@ -30,7 +30,7 @@ export function readSession(token) {
 
 export function ensureAdmin() {
   if (get('SELECT id FROM users LIMIT 1')) return false;
-  const email = process.env.ADMIN_EMAIL || 'admin@notch.tech';
+  const email = (process.env.ADMIN_EMAIL || 'admin@notch.tech').trim().toLowerCase();
   const pw = process.env.ADMIN_PASSWORD || 'admin123';
   const { salt, hash } = hashPassword(pw);
   run('INSERT INTO users(email,name,salt,hash) VALUES(?,?,?,?)', email, 'Admin', salt, hash);

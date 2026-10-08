@@ -37,5 +37,7 @@ const server = http.createServer(async (req, res) => {
   }
 });
 
-const port = Number(process.env.PORT) || 3000;
+// Hostinger/Passenger قد يمرّر PORT كمسار socket وليس رقمًا
+const PORT = process.env.PORT || '3000';
+const port = /^\d+$/.test(PORT) ? Number(PORT) : PORT;
 server.listen(port, () => console.log(`NOTCH store → http://localhost:${port}   |   لوحة التحكم → http://localhost:${port}/admin`));

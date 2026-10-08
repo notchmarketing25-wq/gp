@@ -176,7 +176,7 @@ export function registerApi(router) {
 
   // ----- auth -----
   router.post('/api/login', async (ctx) => {
-    const ip = ctx.req.socket.remoteAddress;
+    const ip = String(ctx.req.headers['x-forwarded-for'] || '').split(',')[0].trim() || ctx.req.socket.remoteAddress; // خلف بروكسي الاستضافة
     const a = attempts.get(ip) || { n: 0, t: Date.now() };
     if (Date.now() - a.t > 15 * 60e3) { a.n = 0; a.t = Date.now(); }
     if (a.n >= 10) throw new HttpError(429, 'محاولات كثيرة، حاول بعد 15 دقيقة');

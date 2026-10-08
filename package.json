@@ -1,13 +1,17 @@
 {
   "name": "notch-store",
   "version": "1.0.0",
-  "description": "NOTCH Tech – متجر إلكتروني ولوحة تحكم (بدون مكتبات خارجية)",
+  "description": "NOTCH Tech – متجر إلكتروني ولوحة تحكم",
   "type": "module",
   "private": true,
-  "engines": { "node": ">=22.13" },
+  "main": "app.cjs",
+  "engines": { "node": ">=18.17" },
   "scripts": {
-    "start": "node server/index.js",
+    "start": "node app.cjs",
     "dev": "node --watch server/index.js",
     "reset": "node server/reset.js"
+  },
+  "optionalDependencies": {
+    "better-sqlite3": "^11.10.0"
   }
 }

@@ -1,6 +1,6 @@
 # NOTCH Tech Store
 
-متجر إلكتروني + لوحة تحكم (على طريقة Shopify) لعلامة **NOTCH Tech**. بدون أي مكتبات خارجية: يحتاج **Node 22.13+** فقط (قاعدة البيانات SQLite مدمجة).
+متجر إلكتروني + لوحة تحكم (على طريقة Shopify) لعلامة **NOTCH Tech**. يعمل على **Node 22.13+** بدون مكتبات (SQLite مدمج)، وعلى Node 18/20 عبر `better-sqlite3` (يُثبَّت تلقائيًا مع `npm install`).
 
 ## التشغيل
 ```bash
@@ -9,6 +9,17 @@ npm start     # المتجر: http://localhost:3000   |   اللوحة: http://l
 - أول تشغيل ينشئ بيانات تجريبية وحساب مدير: `admin@notch.tech` / `admin123` (**غيّره من الإعدادات**).
 - متغيرات اختيارية: `PORT`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `DATA_DIR`, `UPLOAD_DIR`, `COOKIE_SECURE=1` (خلف HTTPS).
 - `npm run reset` يمسح البيانات ويعيد البيانات التجريبية.
+
+## الرفع على Hostinger (Node.js Web App)
+1. hPanel → **Websites → Add website → Node.js Apps** → اربطه بمستودع GitHub (أو ارفع الملفات zip).
+2. الإعدادات:
+   - **Node version:** ‏22.x (أو 20.x)
+   - **Entry file:** `app.cjs`  ← مهم (وليس `server/index.js`)
+   - **Install command:** `npm install` — **Build:** اتركه فارغًا — **Start:** `npm start`
+3. متغيرات البيئة (Environment variables): `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `SESSION_SECRET` (نص عشوائي طويل)، `COOKIE_SECURE=1` (بعد تفعيل SSL).
+   يفضّل أيضًا `DATA_DIR` و`UPLOAD_DIR` لمسار خارج مجلد التطبيق (مثل `/home/USER/notch-data`) حتى لا تُمسح البيانات مع كل إعادة نشر.
+4. بعد النشر: المتجر على الدومين، واللوحة على `https://الدومين/admin`.
+5. لو ظهر خطأ: hPanel → التطبيق → **Logs**. رسالة `SQLite غير متاح` تعني أن `npm install` لم يكتمل أو إصدار Node غير مدعوم.
 
 ## لوحة التحكم
 الرئيسية (إحصائيات) · الطلبات · المنتجات (صور، أنواع/ألوان، مخزون، SKU، مسودة) · المجموعات · العملاء · أكواد الخصم · الصفحات ·
